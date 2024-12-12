@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>基本使用</title>
+    <script src="../js/vue.js"></script>
+</head>
+
+<body>
+    <div id="root">
+        <hello></hello>
+        <h1>{{msg}}</h1>
+        <hr>
+        <!-- 第三步：编写组件标签 -->
+        <school></school>
+    </div>
+
+    <script>
+        // 第一步：创建组件
+        const school = Vue.extend({
+            template: `
+                <div>
+                    <h2>学校名称：{{schoolName}}</h2>
+                    <h2>学校地址：{{address}}</h2>
+                    <button @click="showName">点我提示学校名称</button>
+                </div>
+            `,
+            // 几乎不一样之处：data 采用函数式写法，数据写在返回对象
+            data() {
+                return {
+                    schoolName: '尚硅谷',
+                    address: '北京昌平'
+                }
+            },
+            methods: {
+                showName($event) {
+                    alert(this.schoolName),
+                    console.log($event);
+                    
+                    
+                }
+            },
+        })
+
+        const hello = Vue.extend({
+            template: `
+                <div>
+                    <h2>你好啊！{{name}}</h2>
+                </div>
+            `,
+            data() {
+                return {
+                    name: 'Tom'
+                }
+            }
+        })
+
+        // 第二步：注册组件（全局注册）
+        Vue.component('hello', hello)
+
+        new Vue({
+            el: '#root',
+            data: {
+                msg: '你好啊'
+            },
+            // 第二步，注册组件（局部注册）
+            components: {
+                school,
+            }
+        })
+    </script>
+</body>
+
+</html>
